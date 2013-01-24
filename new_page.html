@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app="app">
+  <header>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.js"></script>
+    <script language="javascript" type="text/javascript">
+      angular.module('app', []);
+      
+      //Whatever you put on the controller scope,
+      //will be availalble in the HTML element bound to the controller.
+      function MyController($scope){
+        $scope.newMessage = "";
+        $scope.newContact = "";
+        $scope.messages = ["John", "James", "Jim", "Joe"];
+        $scope.contacts = ["111", "222", "333", "444"];
+        $scope.add = function(){
+          $scope.messages.push($scope.newMessage);
+          $scope.contacts.push($scope.newContact);
+        };
+        $scope.add2 = function(newSearch){
+          $scope.messages.push($scope.newSearch);
+        };
+        
+        $scope.newSearch = "";
+        $scope.searchResult = "";
+        $scope.search = function(newSearch){
+          var temp = $scope.messages;
+          var tempC = $scope.contacts;
+          var counter = 0;
+          for(var i=0;i<temp.length;i++){
+            if(temp[i] === this.newSearch){
+              $scope.searchResult = "Yes, " + newSearch + " is your friend. His contact number is " + tempC[i] + ".";
+              counter+=1;
+              document.getElementById('profile').style.display = 'block';
+            }
+          }
+          if(counter===0){
+            $scope.searchResult = "Sorry, " + newSearch + " is not your friend.";
+          }
+        };
+      }
+    </script>
+  </header>
+  
+  <body ng-controller="MyController" bgcolor="#3bb9ff">
+    Add friend:<br>     
+    Name: <input type="text" ng-model="newMessage"><Br>
+    Contact: <input type="text" ng-model="newContact">
+    <input type="submit" ng-click="add()" value="add">
+    <br>
+    List of Your friend: <br>
+    <ul>
+      <li ng-repeat="message in messages">
+        {{message}}
+      </li>
+    </ul>
+    Search friend:<br>     
+    <input type="text" ng-model="newSearch">
+    <input type="submit" ng-click="search(newSearch)" value="search">
+    <br>Result: {{searchResult}}<br>
+    <div id="profile" style="display:none;" width="200px" height="150px"></div>
+  </body>
+  
+</html>
